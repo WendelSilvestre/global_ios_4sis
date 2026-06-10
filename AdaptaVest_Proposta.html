@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; color: #1a1a1a; font-size: 10.6pt; line-height: 1.4; margin: 0; }
+  h1 { font-size: 18pt; margin: 0 0 2px 0; }
+  .sub { color: #555; font-size: 10.5pt; margin: 0 0 10px 0; }
+  h2 { font-size: 11.5pt; margin: 11px 0 3px 0; border-bottom: 1px solid #ccc; padding-bottom: 2px; }
+  p { margin: 4px 0; text-align: justify; }
+  ul { margin: 4px 0; padding-left: 18px; }
+  li { margin: 2px 0; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 9.6pt; background: #f3f3f3; padding: 0 2px; border-radius: 3px; }
+  .footer { margin-top: 12px; padding-top: 6px; border-top: 1px solid #ccc; font-size: 10pt; }
+</style>
+</head>
+<body>
+  <h1>AdaptaVest</h1>
+  <p class="sub">Roupas adaptativas para conforto térmico — Proposta de solução (Global Solution)</p>
+
+  <h2>Propósito da solução</h2>
+  <p>O AdaptaVest é um aplicativo de apoio ao conforto térmico por meio de roupas adaptativas (vestuário inteligente). Diante de eventos climáticos cada vez mais extremos, o app ajuda o usuário a definir a configuração térmica ideal da peça a partir da sua temperatura corporal e da temperatura do ambiente, recomendando um modo de operação (resfriamento, ameno ou aquecimento) e a temperatura-alvo da roupa. Além de promover bem-estar e proteger grupos vulneráveis (idosos, crianças e trabalhadores expostos), a regulação localizada da temperatura reduz a dependência de aquecedores e ar-condicionado, contribuindo para a eficiência energética.</p>
+
+  <h2>Arquitetura (MVC)</h2>
+  <p>O projeto segue o padrão Model-View-Controller. As <strong>Views</strong> são montadas com componentes UIKit; os <strong>Controllers</strong> (<code>PersonViewController</code>, <code>ClothListViewController</code> e <code>AboutViewController</code>) coordenam a interface e o fluxo da aplicação; e a <strong>Model</strong> concentra os dados e as regras de negócio, sem conhecer a interface. A classe <code>Mensagem</code> centraliza a exibição de alertas ao usuário.</p>
+
+  <h2>Model</h2>
+  <ul>
+    <li><code>Person</code>: representa o usuário (<code>name</code>, <code>height</code>, <code>bodyTemperature</code>, <code>measures</code>). O método <code>idealClothTemperature(forAmbient:)</code> calcula a temperatura ideal da roupa e <code>recommendedMode(forAmbient:)</code> sugere o modo térmico.</li>
+    <li><code>Cloth</code>: representa uma peça do catálogo (<code>name</code>, <code>clothTemperature</code>, <code>mode</code>, <code>adaptiveMeasures</code>). O método <code>isSuitable(forIdeal:tolerance:)</code> avalia se a peça atende à necessidade calculada.</li>
+    <li><code>ThermalMode</code>: enumeração dos modos térmicos (cold, warm, hot, basic), com descrição amigável para a interface.</li>
+  </ul>
+
+  <h2>Justificativa (Programação Orientada a Objetos)</h2>
+  <p>Os atributos e métodos são coerentes com o domínio da solução: cada classe tem responsabilidade única (<code>Person</code> modela a pessoa; <code>Cloth</code> modela a peça de roupa), os dados ficam encapsulados e são expostos por inicializadores claros, e o uso da enumeração <code>ThermalMode</code> aplica abstração e segurança de tipos, impedindo valores inválidos — o inicializador tolerante converte um texto livre em um modo válido.</p>
+
+  <h2>Telas</h2>
+  <ul>
+    <li><strong>Cadastro:</strong> formulário com validação de campos (vazio, numérico e intervalo) que usa a Model para calcular e exibir a recomendação por meio da classe de mensagens.</li>
+    <li><strong>Guarda-roupa adaptativo:</strong> UITableView que lista as peças a partir de um array da Model, informa detalhes ao selecionar a célula ou o acessório, e permite adicionar e excluir itens.</li>
+    <li><strong>Sobre:</strong> exibe o nome e o RM do participante e informa a pontuação estimada do projeto.</li>
+  </ul>
+
+  <div class="footer">
+    <strong>Participante:</strong> Wendel Silvestre — RM000000
+  </div>
+</body>
+</html>
